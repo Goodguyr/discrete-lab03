@@ -1,7 +1,9 @@
 package lv.rbs.ds.lab03
 
-import org.scalatest._
+import main.scala.lv.rbs.ds.lab03.KMPmatcher
 import net.liftweb.json._
+import org.scalatest._
+
 
 class KMPmatcherTest extends FlatSpec with Matchers {
 
@@ -18,13 +20,13 @@ class KMPmatcherTest extends FlatSpec with Matchers {
   // **************************************************************************
   // Check if the search algorithm actually searches substrings correctly
   // **************************************************************************
-  ignore should "return 3 items, if they exist" in {
+  it should "return 3 items, if they exist" in {
     val matcher = new KMPmatcher("ab")
     val result = matcher.findAllIn("stab, about, above").toList
     result should be(List(2, 6, 13))
   }
 
-  ignore should "return empty findAllIn iterator, if none exist" in {
+  it should "return empty findAllIn iterator, if none exist" in {
     val matcher = new KMPmatcher("ab")
     val result = matcher.findAllIn("xxxx, yyyyy, zzzzz").toList
     result should be(List())
@@ -33,7 +35,7 @@ class KMPmatcherTest extends FlatSpec with Matchers {
   // **************************************************************************
   // Check if the pattern preprocessing functions are correct
   // **************************************************************************
-  ignore should "return prefixFun" in {
+  it should "return prefixFun" in {
     val expected = List(-1,0,0,0,0,1,2,0)
     val myPattern = "ABCDABD"
     val matcher = new KMPmatcher(myPattern)
@@ -44,7 +46,7 @@ class KMPmatcherTest extends FlatSpec with Matchers {
   // **************************************************************************
   // Testing the returned JSON as a string.
   // **************************************************************************
-  ignore should "return JSON string with the right algorithm type" in {
+  it should "return JSON string with the right algorithm type" in {
     val matcher = new KMPmatcher("ABCDABD")
     val result = matcher.toJson("ABC ABCDAB ABCDABCDABDE")
     result should include("KMP")
@@ -54,7 +56,7 @@ class KMPmatcherTest extends FlatSpec with Matchers {
   // **************************************************************************
   // Testing the returned JSON as a parsed data structure.
   // **************************************************************************
-  ignore should "return 3 correct string fields" in {
+  it should "return 3 correct string fields" in {
     val myPattern = "ABCDABD"
     val matcher = new KMPmatcher(myPattern)
     val myText = "ABC ABCDAB ABCDABCDABDE"
@@ -69,7 +71,7 @@ class KMPmatcherTest extends FlatSpec with Matchers {
     tt should be(myText)
   }
 
-  ignore should "count character comparisons correctly" in {
+  it should "count character comparisons correctly" in {
     val matcher = new KMPmatcher("ABCDABD")
     val result = matcher.toJson("ABC ABCDAB ABCDABCDABDE")
     val json = parse(result)
@@ -78,12 +80,13 @@ class KMPmatcherTest extends FlatSpec with Matchers {
     comparisons should be(27)
   }
 
-  ignore should "return correct steps 0, 1 and 6" in {
+  it should "return correct steps 0, 1 and 6" in {
     val matcher = new KMPmatcher("ABCDABD")
     val result = matcher.toJson("ABC ABCDAB ABCDABCDABDE")
     val json = parse(result)
     implicit val formats = DefaultFormats
     val resultSteps = (json \ "steps").extract[List[Map[String, String]]]
+    println(resultSteps)
     resultSteps(0)("offset") should be("0")
     resultSteps(0)("start") should be("0")
     resultSteps(0)("end") should be("3")
@@ -98,6 +101,7 @@ class KMPmatcherTest extends FlatSpec with Matchers {
     resultSteps(6)("start") should be("2")
     resultSteps(6)("end") should be("6")
     resultSteps(6)("match") should be("true")
+    println(resultSteps)
   }
 
   it should "return all the right steps" in {
