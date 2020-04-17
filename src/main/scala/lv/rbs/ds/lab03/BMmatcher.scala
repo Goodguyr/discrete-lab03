@@ -4,6 +4,10 @@ import play.api.libs.json.{JsValue, Json}
 
 import scala.collection.mutable.ListBuffer
 
+//Sources:
+//https://www.geeksforgeeks.org/boyer-moore-algorithm-for-pattern-searching/
+//geeksforgeeks.org/boyer-moore-algorithm-good-suffix-heuristic/
+
 class BMmatcher(pattern1:String) {
   //pattern to chararr
   var pattern = pattern1.toCharArray
